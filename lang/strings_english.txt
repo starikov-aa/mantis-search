@@ -1,0 +1,10 @@
+<?php
+$s_plugin_Search = '';
+$s_plugin_Search_title = 'Search Issues';
+$s_plugin_Search_description = 'This plugin adds a more powerful search engine to MantisBT';
+$s_plugin_Search_search_link = 'Search';
+$s_plugin_Search_not_found = 'Sorry. Your query returned no results.';
+$s_plugin_Search_result_tbl_id = 'Ticket';
+$s_plugin_Search_result_tbl_summary = 'Summary';
+$s_plugin_Search_result_tbl_description = 'Description';
+$s_plugin_Search_result_tbl_comments = 'Comments';

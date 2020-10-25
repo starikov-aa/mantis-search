@@ -1,0 +1,11 @@
+<?php
+
+$s_plugin_Search = '';
+$s_plugin_Search_title = 'Поиск задач';
+$s_plugin_Search_description = 'Плагин расширяющий возможности поиска в MantisBT';
+$s_plugin_Search_search_link = 'поиск';
+$s_plugin_Search_not_found = 'Извините. По Вашему запросу ничего не найдено.';
+$s_plugin_Search_result_tbl_id = 'Тикет';
+$s_plugin_Search_result_tbl_summary = 'Тема';
+$s_plugin_Search_result_tbl_description = 'Описание';
+$s_plugin_Search_result_tbl_comments = 'Комментарии';

@@ -1,0 +1,30 @@
+#highlights_text {
+    background-color: #ADFF2F;
+}
+
+#tbl_search_result th {
+   text-align: center;
+}
+
+#tbl_search_result td  {
+    vertical-align: middle;
+}
+
+/* Search form*/
+#div_search_form {
+   margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/* Parameters for the fourth column */
+td:nth-child(4) {
+    width: 70px;
+    text-align: center;
+}
+
+/* Parameters for the first column */
+td:nth-child(1) {
+    width: 70px;
+    text-align: center;
+}
+
