@@ -35,14 +35,6 @@ class SearchPlugin extends MantisPlugin
         ];
     }
 
-    function test($a, $b, $c)
-    {
-        $r = '<h1>DDDDDDDDDD</h1>';
-
-        echo $b;
-        return $b;
-    }
-
     function resources()
     {
         $resources = '<link rel="stylesheet" type="text/css" href="' . plugin_file('css/style.css') . '" />';
