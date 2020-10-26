@@ -72,10 +72,12 @@ while ($row = db_fetch_array($query_result)) {
     }
 }
 
-echo '<pre>';
+//echo '<pre>';
 //print_r($to_table);
 
-echo gen_result_table($to_table);
+$html  = "<div id='div_search_result'>" . gen_result_table($to_table) . "</div>";
+
+echo $html;
 layout_page_end();
 
 

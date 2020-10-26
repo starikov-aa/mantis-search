@@ -10,6 +10,10 @@
     vertical-align: middle;
 }
 
+#div_search_result {
+    width: 100%;
+}
+
 /* Search form*/
 #div_search_form {
    margin-top: 10px;

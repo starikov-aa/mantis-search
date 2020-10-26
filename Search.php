@@ -31,7 +31,6 @@ class SearchPlugin extends MantisPlugin
         return [
             'EVENT_MENU_MAIN' => 'print_menu_search',
             'EVENT_LAYOUT_RESOURCES' => 'resources',
-            'EVENT_DISPLAY_TEXT' => 'test'
         ];
     }
 
