@@ -8,3 +8,4 @@ $s_plugin_Search_result_tbl_id = 'Ticket';
 $s_plugin_Search_result_tbl_summary = 'Summary';
 $s_plugin_Search_result_tbl_description = 'Description';
 $s_plugin_Search_result_tbl_comments = 'Comments';
+$s_plugin_Search_result_tbl_comment_num = '#';

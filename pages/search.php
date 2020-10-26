@@ -28,7 +28,7 @@ plugin_config_set( 'my_search_plugin', 'test' );
     </div>
 <?php
 
-if (!isset($_POST['search_submit']))
+if (!isset($_POST['search_submit']) || empty($_POST['text']))
     exit();
 
 form_security_validate('plugin_Search_search_press');
@@ -65,7 +65,7 @@ while ($row = db_fetch_array($query_result)) {
     $to_table[$bid]['summary'] = highlights_text($search_text, $row['summary']);
     $to_table[$bid]['description'] = highlights_text($search_text, $row['description']);
 
-    $pos_text_in_note = stristr($row['note'], $search_text);
+    $pos_text_in_note = strpos($row['note'], $search_text);
     if ($pos_text_in_note !== false) {
         $note = get_text_fragment($row['note'], $search_text, $num_sym_before, $num_sym_after);
         $to_table[$bid]['notes'][$row['noteid']] = highlights_text($search_text, $note);
@@ -107,7 +107,7 @@ function get_text_fragment($text, $search_text, $num_sym_before, $num_sym_after)
     $pos = strpos($text, $search_text);
     $s = ($pos - $num_sym_before) <= 0 ? 0 : $pos - $num_sym_before;
     $e = $pos + strlen($search_text) + $num_sym_after;
-    return trim(substr($text, $s, $e));
+    return substr($text, $s, $e);
 }
 
 /**
@@ -136,13 +136,12 @@ function gen_html_link($bug_id, $comment_id = false)
 function gen_result_table($search_result)
 {
     $html = '';
-    $notes = '<td></td><td></td></tr>';
-    $row_num = '';
 
     foreach ($search_result as $bug_id => $data) {
         if (is_array(@$data['notes'])) {
             $notes = $data['notes'];
             $note_num = count($notes);
+            $row_num = '';
 
             if ($note_num > 1) {
                 array_walk($notes, function (&$v, $k, $bug_id) {
@@ -153,6 +152,9 @@ function gen_result_table($search_result)
             } else {
                 $notes = "<td>" . gen_html_link($bug_id, key($notes)) . "</td><td>" . current($notes) . "</td></tr>";
             }
+        } else {
+            $notes = '<td></td><td></td></tr>';
+            $row_num = '';
         }
 
         $html .= "<tr><td " . $row_num . ">" . gen_html_link($bug_id) . "</td>";
@@ -165,7 +167,8 @@ function gen_result_table($search_result)
             <th id='col_id'>" . plugin_lang_get( 'result_tbl_id' ) . "</th>
             <th id='col_summary'>" . plugin_lang_get( 'result_tbl_summary' ) . "</th>
             <th id='col_description'>" . plugin_lang_get( 'result_tbl_description' ) . "</th>
-            <th id='col_comments' colspan='2'>" . plugin_lang_get( 'result_tbl_comments' ) . "</th>
+            <th id='col_comment_id'>" . plugin_lang_get( 'result_tbl_comment_num' ) . "</th>
+            <th id='col_comments'>" . plugin_lang_get( 'result_tbl_comments' ) . "</th>
         </tr>
     ";
     return '<table id="tbl_search_result" class="table table-bordered table-condensed" cellspacing="1">' . $head . $html . '</table>';

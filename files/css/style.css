@@ -8,10 +8,17 @@
 
 #tbl_search_result td  {
     vertical-align: middle;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 #div_search_result {
     width: 100%;
+}
+
+#tbl_search_result{
+    table-layout: fixed;
+    width:100%
 }
 
 /* Search form*/
@@ -20,15 +27,12 @@
     margin-bottom: 15px;
 }
 
-/* Parameters for the fourth column */
-td:nth-child(4) {
-    width: 70px;
-    text-align: center;
-}
-
 /* Parameters for the first column */
-td:nth-child(1) {
+#col_id, #col_comment_id {
     width: 70px;
     text-align: center;
 }
 
+#col_summary {
+    width: 15%;
+}

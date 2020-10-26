@@ -9,3 +9,4 @@ $s_plugin_Search_result_tbl_id = 'Тикет';
 $s_plugin_Search_result_tbl_summary = 'Тема';
 $s_plugin_Search_result_tbl_description = 'Описание';
 $s_plugin_Search_result_tbl_comments = 'Комментарии';
+$s_plugin_Search_result_tbl_comment_num = '#';
