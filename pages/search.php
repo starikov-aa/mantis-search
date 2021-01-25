@@ -32,7 +32,7 @@ if (!isset($_POST['search_submit']) || empty($_POST['text']))
     exit();
 
 form_security_validate('plugin_Search_search_press');
-$search_text = gpc_get_string('text');
+$search_text = filter_var(gpc_get_string('text'), FILTER_SANITIZE_SPECIAL_CHARS);
 
 $query = "SELECT mantis_bug_table.id AS bid,
        SUMMARY,
