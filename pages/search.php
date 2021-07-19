@@ -5,22 +5,23 @@
  * https://github.com/starikov-aa/mantisbt-search
  */
 
-layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_header(plugin_lang_get('title'));
 layout_page_begin();
 
-plugin_config_set( 'my_search_plugin', 'test' );
+plugin_config_set('my_search_plugin', 'test');
 
 ?>
     <div id="div_search_form">
-        <form action="<?php echo plugin_page( "search" ); ?>" method="post">
-            <?php echo form_security_field( 'plugin_Search_search_press' ) ?>
+        <form action="<?php echo plugin_page("search"); ?>" method="post">
+            <?php echo form_security_field('plugin_Search_search_press') ?>
             <table style="width:40%;max-width:1000px;min-width:200px;margin:auto;">
                 <tr>
                     <td id="text" style="padding:.25em;">
-                        <input name="text" size="100" maxlength="300" value="<?=$_POST['text'] ?? ''?>"/>
+                        <input name="text" size="100" maxlength="300" value="<?= $_POST['text'] ?? '' ?>"/>
                     </td>
                     <td style="padding:.25em;">
-                        <input type="submit" name="search_submit" value="<?php echo plugin_lang_get( 'search_link' ); ?>" />
+                        <input type="submit" name="search_submit"
+                               value="<?php echo plugin_lang_get('search_link'); ?>"/>
                     </td>
                 </tr>
             </table>
@@ -52,7 +53,7 @@ LEFT JOIN mantis_bugnote_text_table ON mantis_bugnote_text_table.id = mantis_bug
 WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
-  AND mantis_bug_table.project_id in (".join(",", $project_children).")
+  AND mantis_bug_table.project_id in (" . join(",", $project_children) . ")
   AND mantis_bug_table.project_id in (" . $allow_project . ")
   ORDER BY bid DESC";
 
@@ -83,7 +84,7 @@ while ($row = db_fetch_array($query_result)) {
 //echo '<pre>';
 //print_r($to_table);
 
-$html  = "<div id='div_search_result'>" . gen_result_table($to_table) . "</div>";
+$html = "<div id='div_search_result'>" . gen_result_table($to_table) . "</div>";
 
 echo $html;
 layout_page_end();
@@ -172,11 +173,11 @@ function gen_result_table($search_result)
     }
 
     $head = "<tr>
-            <th id='col_id'>" . plugin_lang_get( 'result_tbl_id' ) . "</th>
-            <th id='col_summary'>" . plugin_lang_get( 'result_tbl_summary' ) . "</th>
-            <th id='col_description'>" . plugin_lang_get( 'result_tbl_description' ) . "</th>
-            <th id='col_comment_id'>" . plugin_lang_get( 'result_tbl_comment_num' ) . "</th>
-            <th id='col_comments'>" . plugin_lang_get( 'result_tbl_comments' ) . "</th>
+            <th id='col_id'>" . plugin_lang_get('result_tbl_id') . "</th>
+            <th id='col_summary'>" . plugin_lang_get('result_tbl_summary') . "</th>
+            <th id='col_description'>" . plugin_lang_get('result_tbl_description') . "</th>
+            <th id='col_comment_id'>" . plugin_lang_get('result_tbl_comment_num') . "</th>
+            <th id='col_comments'>" . plugin_lang_get('result_tbl_comments') . "</th>
         </tr>
     ";
     return '<table id="tbl_search_result" class="table table-bordered table-condensed" cellspacing="1">' . $head . $html . '</table>';
