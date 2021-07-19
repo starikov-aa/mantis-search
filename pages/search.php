@@ -37,6 +37,9 @@ $current_project = helper_get_current_project();
 $project_children = project_hierarchy_get_all_subprojects($current_project);
 $project_children[] = $current_project;
 
+// List of projects to which the current user has access
+$allow_project = join(",", user_get_all_accessible_projects());
+
 $query = "SELECT mantis_bug_table.id AS bid,
        SUMMARY,
        description,
@@ -50,6 +53,7 @@ WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
   AND mantis_bug_table.project_id in (".join(",", $project_children).")
+  AND mantis_bug_table.project_id in (" . $allow_project . ")
   ORDER BY bid DESC";
 
 
