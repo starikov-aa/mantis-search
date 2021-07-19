@@ -130,7 +130,7 @@ function gen_html_link($bug_id, $comment_id = false)
 {
     $link = $comment_id ? $bug_id . "#c" . $comment_id : $bug_id;
     $text = $comment_id ? "#" . $comment_id : $bug_id;
-    return "<a href='view.php?id=" . $link . "'>" . $text . "</a>";
+    return "<a href='view.php?id=" . $link . "' target='_blank'>" . $text . "</a>";
 }
 
 /**
