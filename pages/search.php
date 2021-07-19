@@ -33,6 +33,9 @@ if (!isset($_POST['search_submit']) || empty($_POST['text']))
 
 form_security_validate('plugin_Search_search_press');
 $search_text = filter_var(gpc_get_string('text'), FILTER_SANITIZE_SPECIAL_CHARS);
+$current_project = helper_get_current_project();
+$project_children = project_hierarchy_get_all_subprojects($current_project);
+$project_children[] = $current_project;
 
 $query = "SELECT mantis_bug_table.id AS bid,
        SUMMARY,
@@ -43,9 +46,10 @@ FROM mantis_bug_table
 JOIN mantis_bug_text_table ON mantis_bug_text_table.id = mantis_bug_table.id
 LEFT JOIN mantis_bugnote_table ON mantis_bugnote_table.bug_id = mantis_bug_table.id
 LEFT JOIN mantis_bugnote_text_table ON mantis_bugnote_text_table.id = mantis_bugnote_table.bugnote_text_id
-WHERE (summary LIKE '%" . $search_text . "%')
+WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
-  OR (note LIKE '%" . $search_text . "%')
+  OR (note LIKE '%" . $search_text . "%'))
+  AND mantis_bug_table.project_id in (".join(",", $project_children).")
   ORDER BY bid DESC";
 
 
