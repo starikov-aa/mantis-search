@@ -55,7 +55,7 @@ WHERE ((summary LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
   AND mantis_bug_table.project_id in (" . join(",", $project_children) . ")
   AND mantis_bug_table.project_id in (" . $allow_project . ")
-  ORDER BY bid DESC";
+ORDER BY bid DESC";
 
 
 $num_sym_before = plugin_config_get('num_sym_before', 200);
@@ -74,7 +74,7 @@ while ($row = db_fetch_array($query_result)) {
     $to_table[$bid]['summary'] = highlights_text($search_text, $row['summary']);
     $to_table[$bid]['description'] = highlights_text($search_text, $row['description']);
 
-    $pos_text_in_note = strpos($row['note'], $search_text);
+    $pos_text_in_note = mb_stripos($row['note'], $search_text);
     if ($pos_text_in_note !== false) {
         $note = get_text_fragment($row['note'], $search_text, $num_sym_before, $num_sym_after);
         $to_table[$bid]['notes'][$row['noteid']] = highlights_text($search_text, $note);
@@ -99,7 +99,13 @@ layout_page_end();
  */
 function highlights_text($search_text, $text)
 {
-    return str_ireplace($search_text, "<span id='highlights_text'>" . $search_text . "</span>", $text);
+    $start_pos = mb_stripos($text, $search_text);
+    if ($start_pos !== false) {
+        $search_text = mb_substr($text, $start_pos, strlen($search_text));
+        return preg_replace("/" . $search_text . "/i", "<span id='highlights_text'>" . $search_text . "</span>", $text);
+    } else {
+        return $text;
+    }
 }
 
 /**
@@ -113,10 +119,10 @@ function highlights_text($search_text, $text)
  */
 function get_text_fragment($text, $search_text, $num_sym_before, $num_sym_after)
 {
-    $pos = strpos($text, $search_text);
+    $pos = mb_stripos($text, $search_text);
     $s = ($pos - $num_sym_before) <= 0 ? 0 : $pos - $num_sym_before;
     $e = $pos + strlen($search_text) + $num_sym_after;
-    return substr($text, $s, $e);
+    return mb_substr($text, $s, $e);
 }
 
 /**
