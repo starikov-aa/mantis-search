@@ -11,22 +11,26 @@ layout_page_begin();
 plugin_config_set('my_search_plugin', 'test');
 
 ?>
-    <div id="div_search_form">
-        <form action="<?php echo plugin_page("search"); ?>" method="post">
+        <form action="<?=plugin_page("search");?>" method="post" class="form-search">
             <?php echo form_security_field('plugin_Search_search_press') ?>
             <table style="width:40%;max-width:1000px;min-width:200px;margin:auto;">
                 <tr>
                     <td id="text" style="padding:.25em;">
-                        <input name="text" size="100" maxlength="300" value="<?= $_POST['text'] ?? '' ?>"/>
+                        <span class="input-icon">
+                            <input type="text" class="nav-search-input" name="text" size="100" maxlength="300" value="<?= $_POST['text'] ?? '' ?>"/>
+                            <i class="ace-icon fa fa-search nav-search-icon"></i>
+                        </span>
                     </td>
                     <td style="padding:.25em;">
+<!--                        <button type="submit" class="btn btn-primary btn-sm">Искать</button>-->
                         <input type="submit" name="search_submit"
-                               value="<?php echo plugin_lang_get('search_link'); ?>"/>
+                               value="<?php echo plugin_lang_get('search_link'); ?>" class="btn btn-primary btn-sm"/>
                     </td>
                 </tr>
+                <tr><td colspan="2"> Поиск производится в текущем проекте и его подпроектах</td></tr>
             </table>
         </form>
-    </div>
+
 <?php
 
 if (!isset($_POST['search_submit']) || empty($_POST['text']))
