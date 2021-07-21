@@ -105,8 +105,8 @@ function highlights_text($search_text, $text)
 {
     $start_pos = mb_stripos($text, $search_text);
     if ($start_pos !== false) {
-        $search_text = mb_substr($text, $start_pos, strlen($search_text));
-        return preg_replace("/" . $search_text . "/i", "<span id='highlights_text'>" . $search_text . "</span>", $text);
+        $search_text = mb_substr($text, $start_pos, mb_strlen($search_text));
+        return str_ireplace($search_text,"<span id='highlights_text'>" . $search_text . "</span>", $text);
     } else {
         return $text;
     }
@@ -125,7 +125,7 @@ function get_text_fragment($text, $search_text, $num_sym_before, $num_sym_after)
 {
     $pos = mb_stripos($text, $search_text);
     $s = ($pos - $num_sym_before) <= 0 ? 0 : $pos - $num_sym_before;
-    $e = $pos + strlen($search_text) + $num_sym_after;
+    $e = $pos + mb_strlen($search_text) + $num_sym_after;
     return mb_substr($text, $s, $e);
 }
 
