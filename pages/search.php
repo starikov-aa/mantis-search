@@ -41,19 +41,19 @@ $allow_project = project_hierarchy_get_all_subprojects($current_project);
 array_push($allow_project, $current_project);
 $allow_project = join(",", $allow_project);
 
-$query = "SELECT mantis_bug_table.id AS bid,
+$query = "SELECT {bug}.id AS bid,
        SUMMARY,
        description,
        note,
-       mantis_bugnote_text_table.id AS noteid
-FROM mantis_bug_table
-JOIN mantis_bug_text_table ON mantis_bug_text_table.id = mantis_bug_table.bug_text_id
-LEFT JOIN mantis_bugnote_table ON mantis_bugnote_table.bug_id = mantis_bug_table.id
-LEFT JOIN mantis_bugnote_text_table ON mantis_bugnote_text_table.id = mantis_bugnote_table.bugnote_text_id
+       {bug_text}.id AS noteid
+FROM {bug}
+JOIN {bug_text} ON {bug_text}.id = {bug}.bug_text_id
+LEFT JOIN {bugnote} ON {bugnote}.bug_id = {bug}.id
+LEFT JOIN {bugnote_text} ON {bugnote_text}.id = {bugnote}.bugnote_text_id
 WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
-  AND mantis_bug_table.project_id in (" . $allow_project . ")
+  AND {bug}.project_id in (" . $allow_project . ")
 ORDER BY bid DESC";
 
 
