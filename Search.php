@@ -11,7 +11,7 @@ class SearchPlugin extends MantisPlugin
     {
         $this->name = plugin_lang_get('title');
         $this->description = plugin_lang_get('description');
-        $this->version = '0.0.1';
+        $this->version = '0.2';
         $this->author = 'Starikov Anton';
         $this->contact = 'starikov_aa@mail.ru';
         $this->url = 'https://github.com/starikov-aa/mantisbt-search';

@@ -1,4 +1,5 @@
 <?php
+
 $s_plugin_Search = '';
 $s_plugin_Search_title = 'Search Issues';
 $s_plugin_Search_description = 'This plugin adds a more powerful search engine to MantisBT';

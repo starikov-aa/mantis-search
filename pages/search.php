@@ -8,8 +8,6 @@
 layout_page_header(plugin_lang_get('title'));
 layout_page_begin();
 
-plugin_config_set('my_search_plugin', 'test');
-
 ?>
         <form action="<?=plugin_page("search");?>" method="post" class="form-search">
             <?php echo form_security_field('plugin_Search_search_press') ?>
@@ -39,11 +37,9 @@ if (!isset($_POST['search_submit']) || empty($_POST['text']))
 form_security_validate('plugin_Search_search_press');
 $search_text = filter_var(gpc_get_string('text'), FILTER_SANITIZE_SPECIAL_CHARS);
 $current_project = helper_get_current_project();
-$project_children = project_hierarchy_get_all_subprojects($current_project);
-$project_children[] = $current_project;
-
-// List of projects to which the current user has access
-$allow_project = join(",", user_get_all_accessible_projects());
+$allow_project = project_hierarchy_get_all_subprojects($current_project);
+array_push($allow_project, $current_project);
+$allow_project = join(",", $allow_project);
 
 $query = "SELECT mantis_bug_table.id AS bid,
        SUMMARY,
@@ -51,13 +47,12 @@ $query = "SELECT mantis_bug_table.id AS bid,
        note,
        mantis_bugnote_text_table.id AS noteid
 FROM mantis_bug_table
-JOIN mantis_bug_text_table ON mantis_bug_text_table.id = mantis_bug_table.id
+JOIN mantis_bug_text_table ON mantis_bug_text_table.id = mantis_bug_table.bug_text_id
 LEFT JOIN mantis_bugnote_table ON mantis_bugnote_table.bug_id = mantis_bug_table.id
 LEFT JOIN mantis_bugnote_text_table ON mantis_bugnote_text_table.id = mantis_bugnote_table.bugnote_text_id
 WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
-  AND mantis_bug_table.project_id in (" . join(",", $project_children) . ")
   AND mantis_bug_table.project_id in (" . $allow_project . ")
 ORDER BY bid DESC";
 
