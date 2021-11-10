@@ -45,7 +45,7 @@ class SearchPlugin extends MantisPlugin
         return [
             [
                 'title' => plugin_lang_get('search_link'),
-                'access_level' => DEVELOPER,
+                'access_level' => REPORTER,
                 'url' => plugin_page('search'),
                 'icon' => 'fa-search'
             ]
