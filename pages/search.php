@@ -37,9 +37,18 @@ if (!isset($_POST['search_submit']) || empty($_POST['text']))
 form_security_validate('plugin_Search_search_press');
 $search_text = filter_var(gpc_get_string('text'), FILTER_SANITIZE_SPECIAL_CHARS);
 $current_project = helper_get_current_project();
-$allow_project = project_hierarchy_get_all_subprojects($current_project);
-array_push($allow_project, $current_project);
-$allow_project = join(",", $allow_project);
+$project_to_query = project_hierarchy_get_all_subprojects($current_project);
+array_push($project_to_query, $current_project);
+
+$allow_project = user_get_all_accessible_projects();
+
+foreach ($project_to_query as $p_key => $project_id) {
+    if (!in_array($project_id, $allow_project)) {
+        unset($project_to_query[$p_key]);
+    }
+}
+
+$project_to_query = join(",", $project_to_query);
 
 $query = "SELECT {bug}.id AS bid,
        SUMMARY,
@@ -53,7 +62,7 @@ LEFT JOIN {bugnote_text} ON {bugnote_text}.id = {bugnote}.bugnote_text_id
 WHERE ((summary LIKE '%" . $search_text . "%')
   OR (description LIKE '%" . $search_text . "%')
   OR (note LIKE '%" . $search_text . "%'))
-  AND {bug}.project_id in (" . $allow_project . ")
+  AND {bug}.project_id in (" . $project_to_query . ")
 ORDER BY bid DESC";
 
 
