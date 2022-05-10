@@ -31,6 +31,8 @@ layout_page_begin();
 
 <?php
 
+layout_page_end();
+
 if (!isset($_POST['search_submit']) || empty($_POST['text']))
     exit();
 
@@ -196,5 +198,6 @@ function gen_result_table($search_result)
     ";
     return '<table id="tbl_search_result" class="table table-bordered table-condensed" cellspacing="1">' . $head . $html . '</table>';
 }
+
 
 
