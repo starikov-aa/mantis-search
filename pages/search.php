@@ -31,10 +31,10 @@ layout_page_begin();
 
 <?php
 
-layout_page_end();
-
-if (!isset($_POST['search_submit']) || empty($_POST['text']))
-    exit();
+if (!isset($_POST['search_submit']) || empty($_POST['text'])){
+	layout_page_end();
+	exit();
+}
 
 form_security_validate('plugin_Search_search_press');
 $search_text = filter_var(gpc_get_string('text'), FILTER_SANITIZE_SPECIAL_CHARS);
